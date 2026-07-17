@@ -1,67 +1,55 @@
 // =====================================================
-// Hero scene: scattered pixel-confetti particle field
-// (inspired by the reference site's scatter, in pink)
-// Particles drift, twinkle, dodge your cursor,
-// and burst when you click. Palette unchanged.
+// Hero scene: scattered pixel squares snapped to the grid
+// Ink + pink + violet confetti. They twinkle, dodge the
+// cursor, and burst on click. Palette unchanged.
 // =====================================================
 import * as THREE from "three";
 
 const canvas = document.getElementById("scene");
 const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-const renderer = new THREE.WebGLRenderer({
-  canvas,
-  antialias: true,
-  alpha: true,
-});
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 const scene = new THREE.Scene();
-
-// camera looks straight at a shallow field of particles
 const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
 camera.position.set(0, 0, 14);
 
-// ---------- field dimensions (recomputed on resize) ----------
+// world-space size of the visible field
 let fieldW = 30;
 let fieldH = 16;
+let unitsPerPx = 0.02;
 
 function computeField() {
-  const dist = camera.position.z;
   const vFov = (camera.fov * Math.PI) / 180;
-  fieldH = 2 * Math.tan(vFov / 2) * dist * 1.15; // slight overscan
-  fieldW = fieldH * camera.aspect * 1.15;
+  fieldH = 2 * Math.tan(vFov / 2) * camera.position.z;
+  fieldW = fieldH * camera.aspect;
+  unitsPerPx = fieldH / (canvas.clientHeight || 800);
 }
 
-// ---------- particle system factory ----------
-// three layers: pink, violet, quiet grey. squares, like confetti pixels.
-// density is per-layer base count, scaled to viewport area at runtime
+// ---------- layers: size + color variety, like scattered pixels ----------
+// density = particles per 10,000 square world units, scaled to viewport
 const LAYERS = [
-  { color: "#F5257C", count: 2600, size: 0.10, opacity: 0.95 },
-  { color: "#4B2AA6", count: 1300, size: 0.085, opacity: 0.8 },
-  { color: "#a49fa9", count: 2100, size: 0.065, opacity: 0.6 },
+  { color: "#17141A", density: 4.2, size: 0.16, opacity: 0.9 },  // ink, chunky
+  { color: "#17141A", density: 7.5, size: 0.09, opacity: 0.7 },  // ink, fine
+  { color: "#F5257C", density: 3.4, size: 0.15, opacity: 1.0 },  // pink, chunky
+  { color: "#F5257C", density: 5.0, size: 0.08, opacity: 0.85 }, // pink, fine
+  { color: "#4B2AA6", density: 2.2, size: 0.11, opacity: 0.75 }, // violet
 ];
 
+const MAX = 1600; // per layer ceiling
 const systems = [];
 
 for (const layer of LAYERS) {
-  const n = layer.count;
-  const positions = new Float32Array(n * 3);
-  const home = new Float32Array(n * 3);      // where each particle belongs
-  const velocity = new Float32Array(n * 3);  // current drift
-  const phase = new Float32Array(n);         // twinkle offset
-
-  for (let i = 0; i < n; i++) {
-    const x = (Math.random() - 0.5) * 34;
-    const y = (Math.random() - 0.5) * 20;
-    const z = (Math.random() - 0.5) * 3;
-    positions.set([x, y, z], i * 3);
-    home.set([x, y, z], i * 3);
-    phase[i] = Math.random() * Math.PI * 2;
-  }
+  const positions = new Float32Array(MAX * 3);
+  const home = new Float32Array(MAX * 3);
+  const velocity = new Float32Array(MAX * 3);
+  const phase = new Float32Array(MAX);
+  for (let i = 0; i < MAX; i++) phase[i] = Math.random() * Math.PI * 2;
 
   const geo = new THREE.BufferGeometry();
   geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+  geo.setDrawRange(0, 0);
 
   const mat = new THREE.PointsMaterial({
     color: new THREE.Color(layer.color),
@@ -73,53 +61,69 @@ for (const layer of LAYERS) {
   });
 
   const points = new THREE.Points(geo, mat);
+  points.frustumCulled = false;
   scene.add(points);
 
-  systems.push({ geo, mat, points, home, velocity, phase, n, baseSize: layer.size, baseOpacity: layer.opacity });
+  systems.push({
+    geo, mat, points, home, velocity, phase,
+    n: 0,
+    density: layer.density,
+    baseSize: layer.size,
+    baseOpacity: layer.opacity,
+  });
 }
 
-// respawn homes to fill the current viewport nicely
+// scatter homes across the viewport, snapped to the 44px CSS grid
 function scatterHomes() {
+  const step = 44 * unitsPerPx;
+  const area = (fieldW * fieldH) / 10000;
+
   for (const s of systems) {
-    for (let i = 0; i < s.n; i++) {
-      const x = (Math.random() - 0.5) * fieldW;
-      const y = (Math.random() - 0.5) * fieldH;
-      const z = (Math.random() - 0.5) * 3;
-      s.home.set([x, y, z], i * 3);
-      s.geo.attributes.position.set([x, y, z], i * 3);
+    const n = Math.min(Math.round(s.density * area * 1000), MAX);
+    s.n = n;
+    const pos = s.geo.attributes.position.array;
+
+    for (let i = 0; i < n; i++) {
+      const gx = Math.round(((Math.random() - 0.5) * fieldW * 1.1) / step) * step;
+      const gy = Math.round(((Math.random() - 0.5) * fieldH * 1.1) / step) * step;
+      const jx = (Math.random() - 0.5) * step * 0.5;
+      const jy = (Math.random() - 0.5) * step * 0.5;
+      const z = (Math.random() - 0.5) * 2;
+
+      s.home.set([gx + jx, gy + jy, z], i * 3);
+      pos[i * 3] = gx + jx;
+      pos[i * 3 + 1] = gy + jy;
+      pos[i * 3 + 2] = z;
+      s.velocity[i * 3] = 0;
+      s.velocity[i * 3 + 1] = 0;
     }
+    s.geo.setDrawRange(0, n);
     s.geo.attributes.position.needsUpdate = true;
   }
 }
 
-// ---------- mouse: particles politely get out of the way ----------
+// ---------- pointer: particles get out of the way ----------
 const mouseWorld = new THREE.Vector3(9999, 9999, 0);
-const raycastPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
+const plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
 const raycaster = new THREE.Raycaster();
 const ndc = new THREE.Vector2();
 
-window.addEventListener("pointermove", (e) => {
+function toWorld(clientX, clientY, out) {
   const rect = canvas.getBoundingClientRect();
-  ndc.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-  ndc.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+  ndc.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+  ndc.y = -((clientY - rect.top) / rect.height) * 2 + 1;
   raycaster.setFromCamera(ndc, camera);
-  raycaster.ray.intersectPlane(raycastPlane, mouseWorld);
-});
+  raycaster.ray.intersectPlane(plane, out);
+}
 
-window.addEventListener("pointerleave", () => {
-  mouseWorld.set(9999, 9999, 0);
-});
+window.addEventListener("pointermove", (e) => toWorld(e.clientX, e.clientY, mouseWorld));
+window.addEventListener("pointerleave", () => mouseWorld.set(9999, 9999, 0));
 
-// ---------- click: confetti burst from the click point ----------
+// ---------- click: confetti burst ----------
 let burst = 0;
 const burstCenter = new THREE.Vector3();
-
 document.querySelector(".hero").addEventListener("click", (e) => {
-  const rect = canvas.getBoundingClientRect();
-  ndc.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-  ndc.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
-  raycaster.setFromCamera(ndc, camera);
-  raycaster.ray.intersectPlane(raycastPlane, burstCenter);
+  toWorld(e.clientX, e.clientY, burstCenter);
   burst = 1;
 });
 
@@ -142,10 +146,10 @@ window.addEventListener("resize", () => {
 
 // ---------- animate ----------
 const clock = new THREE.Clock();
-const REPEL_RADIUS = 2.2;
-const REPEL_FORCE = 0.06;
-const SPRING = 0.02;   // pull back home
-const DAMPING = 0.88;  // settle down
+const REPEL_R = 2.0;
+const REPEL_F = 0.055;
+const SPRING = 0.022;
+const DAMP = 0.88;
 
 function animate() {
   const t = clock.getElapsedTime();
@@ -156,48 +160,41 @@ function animate() {
 
     for (let i = 0; i < s.n; i++) {
       const ix = i * 3;
-      let px = pos[ix];
-      let py = pos[ix + 1];
+      const px = pos[ix];
+      const py = pos[ix + 1];
 
-      // cursor repulsion
       const dxm = px - mouseWorld.x;
       const dym = py - mouseWorld.y;
-      const distM = Math.hypot(dxm, dym);
-      if (distM < REPEL_RADIUS && distM > 0.0001) {
-        const f = (1 - distM / REPEL_RADIUS) * REPEL_FORCE;
-        s.velocity[ix] += (dxm / distM) * f;
-        s.velocity[ix + 1] += (dym / distM) * f;
+      const dm = Math.hypot(dxm, dym);
+      if (dm < REPEL_R && dm > 0.0001) {
+        const f = (1 - dm / REPEL_R) * REPEL_F;
+        s.velocity[ix] += (dxm / dm) * f;
+        s.velocity[ix + 1] += (dym / dm) * f;
       }
 
-      // click burst: shove outward from the click point
       if (burst > 0.05) {
         const dxb = px - burstCenter.x;
         const dyb = py - burstCenter.y;
-        const distB = Math.hypot(dxb, dyb);
-        if (distB < 6 && distB > 0.0001) {
-          const f = (1 - distB / 6) * 0.10 * burst;
-          s.velocity[ix] += (dxb / distB) * f;
-          s.velocity[ix + 1] += (dyb / distB) * f;
+        const db = Math.hypot(dxb, dyb);
+        if (db < 7 && db > 0.0001) {
+          const f = (1 - db / 7) * 0.1 * burst;
+          s.velocity[ix] += (dxb / db) * f;
+          s.velocity[ix + 1] += (dyb / db) * f;
         }
       }
 
-      // spring home + gentle ambient drift
-      s.velocity[ix] += (s.home[ix] - px) * SPRING + Math.sin(t * 0.5 + s.phase[i]) * 0.0012;
-      s.velocity[ix + 1] += (s.home[ix + 1] - py) * SPRING + Math.cos(t * 0.4 + s.phase[i]) * 0.0012;
-
-      s.velocity[ix] *= DAMPING;
-      s.velocity[ix + 1] *= DAMPING;
+      s.velocity[ix] += (s.home[ix] - px) * SPRING + Math.sin(t * 0.5 + s.phase[i]) * 0.001;
+      s.velocity[ix + 1] += (s.home[ix + 1] - py) * SPRING + Math.cos(t * 0.4 + s.phase[i]) * 0.001;
+      s.velocity[ix] *= DAMP;
+      s.velocity[ix + 1] *= DAMP;
 
       pos[ix] += s.velocity[ix];
       pos[ix + 1] += s.velocity[ix + 1];
     }
 
     s.geo.attributes.position.needsUpdate = true;
-
-    // twinkle: opacity and size breathe a little, more on burst
-    const tw = 0.9 + Math.sin(t * 2 + s.phase[0]) * 0.1;
-    s.mat.opacity = Math.min(s.baseOpacity * tw + burst * 0.15, 1);
-    s.mat.size = s.baseSize * (1 + burst * 0.5);
+    s.mat.opacity = Math.min(s.baseOpacity * (0.92 + Math.sin(t * 1.6 + s.phase[0]) * 0.08) + burst * 0.1, 1);
+    s.mat.size = s.baseSize * (1 + burst * 0.45);
   }
 
   renderer.render(scene, camera);
