@@ -35,10 +35,11 @@ function computeField() {
 
 // ---------- particle system factory ----------
 // three layers: pink, violet, quiet grey. squares, like confetti pixels.
+// density is per-layer base count, scaled to viewport area at runtime
 const LAYERS = [
-  { color: "#F5257C", count: 700, size: 0.11, opacity: 0.95 },
-  { color: "#4B2AA6", count: 350, size: 0.09, opacity: 0.8 },
-  { color: "#a49fa9", count: 550, size: 0.07, opacity: 0.6 },
+  { color: "#F5257C", count: 2600, size: 0.10, opacity: 0.95 },
+  { color: "#4B2AA6", count: 1300, size: 0.085, opacity: 0.8 },
+  { color: "#a49fa9", count: 2100, size: 0.065, opacity: 0.6 },
 ];
 
 const systems = [];
