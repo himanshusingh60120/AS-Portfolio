@@ -5,9 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Apurva Sinha · I stop the scroll</title>
   <meta name="description" content="Apurva Sinha, Social Media and Brand Manager. Multi-brand strategy, creator partnerships, and content that makes thumbs stop moving." />
+  <meta property="og:title" content="Apurva Sinha · I stop the scroll" />
+  <meta property="og:description" content="Social Media Manager × Brand Manager. Multi-brand voice, Reels-first systems, creators who actually deliver." />
+  <meta property="og:type" content="website" />
 
-  <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
-  <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700,500&f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
 
   <script type="importmap">
@@ -22,6 +27,7 @@
 
   <div class="cursor" id="cursor"></div>
   <div class="hearts-layer" id="heartsLayer" aria-hidden="true"></div>
+  <div class="gridtag" id="gridtag" aria-hidden="true">R00:C00</div>
 
   <!-- live engagement meter -->
   <div class="engage" id="engage" title="yes, I measure everything">
@@ -30,291 +36,402 @@
   </div>
 
   <!-- ===== NAV ===== -->
-  <header class="nav">
-    <a class="nav__logo" href="#top">AS<span class="dot">.</span></a>
+  <header class="nav" id="nav">
+    <a class="brand" href="#top">
+      <span class="brand__tile">AS</span>
+      <span class="brand__name">apurva sinha</span>
+    </a>
+
     <nav class="nav__links">
-      <a href="#about">About</a>
-      <a href="#experience">Experience</a>
       <a href="#work">Brands</a>
-      <a href="#skills">Toolkit</a>
-      <a href="#contact" class="nav__cta">Slide into my inbox</a>
+      <a href="#experience">Experience</a>
+      <a href="#toolkit">Toolkit</a>
+      <a href="#voice">Voice</a>
+      <a href="#contact" class="nav__cta">Contact</a>
+      <span class="nav__status"><i></i>Social Media Specialist @ Kings Global Ventures</span>
     </nav>
+
     <button class="nav__burger" id="burger" aria-label="Open menu">
       <span></span><span></span>
     </button>
   </header>
 
   <div class="mobile-menu" id="mobileMenu">
-    <a href="#about">About</a>
-    <a href="#experience">Experience</a>
     <a href="#work">Brands</a>
-    <a href="#skills">Toolkit</a>
+    <a href="#experience">Experience</a>
+    <a href="#toolkit">Toolkit</a>
+    <a href="#voice">Voice</a>
     <a href="#contact">Contact</a>
   </div>
 
   <main id="top">
 
     <!-- ===== HERO ===== -->
-    <section class="hero">
+    <section class="hero" id="hero">
       <canvas id="scene"></canvas>
       <div class="hero__inner">
-        <p class="hero__eyebrow reveal">Apurva Sinha · Social Media & Brand Manager · Pune, IN</p>
-        <h1 class="hero__title reveal">
-          I STOP THE <em>SCROLL</em>.
+        <p class="mono-eyebrow">apurva sinha · social media manager × brand manager · pune, in</p>
+
+        <h1 class="hero__title">
+          I STOP THE<br />
+          <span class="knock"><span class="knock__block">SCROLL</span></span>.
         </h1>
 
-        <p class="hero__sub reveal" id="voiceText">
+        <p class="hero__sub" id="voiceText">
           Social media manager by title, brand whisperer by habit. I run four brands
-          across three audiences with one calendar and zero identity crises.
+          across three audiences on one calendar, and none of them sound like each other.
+          That part is the job.
         </p>
 
-        <!-- signature: brand voice switcher -->
-        <div class="voice reveal">
-          <span class="voice__label">same strategist, four voices. try me:</span>
-          <div class="voice__btns" id="voiceBtns">
-            <button class="voice__btn is-active" data-voice="mine">My voice</button>
-            <button class="voice__btn" data-voice="b2b">B2B LinkedIn</button>
-            <button class="voice__btn" data-voice="genz">Gen-Z</button>
-            <button class="voice__btn" data-voice="luxury">Luxury</button>
-          </div>
-        </div>
-
-        <div class="hero__actions reveal">
-          <a class="btn btn--primary" href="#work">See the receipts</a>
-          <a class="btn btn--ghost" href="mailto:sinhaapurva8@gmail.com">sinhaapurva8@gmail.com</a>
-        </div>
-
-        <p class="hero__hint reveal">psst. click anywhere. this page accepts likes.</p>
+        <p class="hero__hint">SCROLL ↓ · everything below has been posted, measured, and defended in a meeting</p>
       </div>
-      <div class="hero__scroll">scroll<span class="hero__scroll-line"></span></div>
     </section>
 
     <!-- ===== MARQUEE ===== -->
     <div class="marquee" aria-hidden="true">
       <div class="marquee__track">
-        <span>BRAND VOICE · REELS & SHORTS · INFLUENCER OPS · UGC · COMMUNITY · PAID SOCIAL · A/B TESTING · AI WORKFLOW · CRISIS COMMS · BRAND VOICE · REELS & SHORTS · INFLUENCER OPS · UGC · COMMUNITY · PAID SOCIAL · A/B TESTING · AI WORKFLOW · CRISIS COMMS · </span>
-        <span>BRAND VOICE · REELS & SHORTS · INFLUENCER OPS · UGC · COMMUNITY · PAID SOCIAL · A/B TESTING · AI WORKFLOW · CRISIS COMMS · BRAND VOICE · REELS & SHORTS · INFLUENCER OPS · UGC · COMMUNITY · PAID SOCIAL · A/B TESTING · AI WORKFLOW · CRISIS COMMS · </span>
+        <span>BRAND VOICE<i></i>REELS &amp; SHORTS<i></i>INFLUENCER OPS<i></i>UGC<i></i>COMMUNITY CARE<i></i>PAID SOCIAL<i></i>A/B TESTING<i></i>AI WORKFLOW<i></i>CRISIS COMMS<i></i>CONTENT CALENDAR<i></i>ANALYTICS<i></i>CREATIVE BRIEFING<i></i></span>
+        <span>BRAND VOICE<i></i>REELS &amp; SHORTS<i></i>INFLUENCER OPS<i></i>UGC<i></i>COMMUNITY CARE<i></i>PAID SOCIAL<i></i>A/B TESTING<i></i>AI WORKFLOW<i></i>CRISIS COMMS<i></i>CONTENT CALENDAR<i></i>ANALYTICS<i></i>CREATIVE BRIEFING<i></i></span>
       </div>
     </div>
 
-    <!-- ===== ABOUT ===== -->
-    <section class="section" id="about">
-      <div class="section__head reveal">
-        <span class="section__label">01</span>
-        <h2>About</h2>
-        <span class="section__quip">the bio, minus the buzzwords. mostly.</span>
+    <!-- ===== STATEMENT + STATS ===== -->
+    <section class="section statement-wrap">
+      <p class="statement reveal">
+        Every brand thinks it has a voice. Most of them have a font.
+        <mark>I find the difference.</mark> Then I make the internet care about it.
+      </p>
+
+      <div class="stats">
+        <div class="stat reveal">
+          <span class="stat__num" data-count="90" data-suffix="%">0%</span>
+          <span class="stat__label">follower growth in six months. organic. the boring kind that lasts.</span>
+        </div>
+        <div class="stat reveal">
+          <span class="stat__num" data-count="2" data-suffix="x">0x</span>
+          <span class="stat__label">engagement rate. the comments section talks back now.</span>
+        </div>
+        <div class="stat reveal">
+          <span class="stat__num" data-count="4" data-suffix="">0</span>
+          <span class="stat__label">brands, one calendar, zero identity crises. ask me how.</span>
+        </div>
+        <div class="stat reveal">
+          <span class="stat__num" id="impressions">0</span>
+          <span class="stat__label">impressions this page has served you. yes, right now. keep scrolling.</span>
+        </div>
       </div>
-      <div class="about">
-        <div class="about__text reveal">
-          <p class="about__lead">
-            Every brand thinks it has a voice. <mark>I make sure it actually does.</mark>
-          </p>
-          <p>
-            Three plus years across B2B, B2C and D2C, owning everything from the
-            content calendar to the creator contracts. I build Reels-first content
-            systems, brief designers, negotiate with influencers, answer the DMs,
-            read the analytics, and then do it all again next month, better.
-          </p>
-          <p>
-            I use AI to move faster and taste to make sure nobody can tell.
-            The data decides what we post next. I decide how it sounds.
-          </p>
-        </div>
-        <div class="about__stats">
-          <div class="stat reveal">
-            <span class="stat__num" data-count="90" data-suffix="%">0%</span>
-            <span class="stat__label">follower growth in 6 months. organic. no, really.</span>
+    </section>
+
+    <!-- ===== SELECTED WORK ===== -->
+    <section class="section" id="work">
+      <div class="section__head reveal">
+        <h2>SELECTED WORK</h2>
+        <p class="section__quip">04 handles · all live · click a row, then go judge the actual feed</p>
+      </div>
+
+      <div class="rows" id="workRows">
+
+        <article class="row">
+          <button class="row__head" aria-expanded="false">
+            <span class="row__num">01</span>
+            <span class="row__main">
+              <span class="row__tags">MULTI-BRAND · B2B · LINKEDIN · BRAND VOICE</span>
+              <span class="row__title">KINGS GROUP VENTURES</span>
+              <span class="row__hook">Four brands. One personality. No cross-contamination.</span>
+            </span>
+            <span class="row__sign">+</span>
+          </button>
+          <div class="row__body">
+            <div class="row__inner">
+              <p>
+                A portfolio company is really four audiences pretending to be one logo.
+                I own the voice for all of them: what each brand sounds like, what it refuses
+                to say, and which platform it says it on. I write the guidelines, brief the
+                designers, review the output, and quietly delete the post that sounds like
+                the wrong brand had the login.
+              </p>
+              <div class="flow">
+                <span>BRIEF</span><span>VOICE GUARDRAILS</span><span>CALENDAR</span><span>SHIP</span><span>REPORT ✓</span>
+              </div>
+              <a class="row__link" href="https://www.linkedin.com/company/kings-group-ventures/posts/?feedView=all" target="_blank" rel="noopener">VIEW LIVE PROFILE ↗</a>
+            </div>
           </div>
-          <div class="stat reveal">
-            <span class="stat__num" data-count="2" data-suffix="x">0x</span>
-            <span class="stat__label">engagement rate. the comments talk back now.</span>
+        </article>
+
+        <article class="row">
+          <button class="row__head" aria-expanded="false">
+            <span class="row__num">02</span>
+            <span class="row__main">
+              <span class="row__tags">B2B · THOUGHT LEADERSHIP · RESEARCH · REPORTING</span>
+              <span class="row__title">KINGS RESEARCH</span>
+              <span class="row__hook">Selling research to people who read research for a living.</span>
+            </span>
+            <span class="row__sign">+</span>
+          </button>
+          <div class="row__body">
+            <div class="row__inner">
+              <p>
+                The toughest audience on social is the one that already knows the answer.
+                This feed earns attention with substance, not hooks: findings framed as
+                arguments, data pulled out of the report and made scroll-sized, and a tone
+                that never oversells because this crowd can smell it. Monthly I turn
+                reach, CTR and watch time into a story stakeholders can act on, which is a
+                different skill from making the graph go up.
+              </p>
+              <div class="flow">
+                <span>FINDING</span><span>ANGLE</span><span>CARROUSEL / REEL</span><span>ENGAGE</span><span>INSIGHT BACK TO TEAM ✓</span>
+              </div>
+              <a class="row__link" href="https://www.linkedin.com/company/kingsresearch/" target="_blank" rel="noopener">VIEW LIVE PROFILE ↗</a>
+            </div>
           </div>
-          <div class="stat reveal">
-            <span class="stat__num" data-count="4" data-suffix="+">0+</span>
-            <span class="stat__label">brands, one calendar, zero identity crises.</span>
+        </article>
+
+        <article class="row">
+          <button class="row__head" aria-expanded="false">
+            <span class="row__num">03</span>
+            <span class="row__main">
+              <span class="row__tags">B2C · INSTAGRAM · REELS · UGC · CAMPUS CREATORS</span>
+              <span class="row__title">BEEP APP · INSTAGRAM</span>
+              <span class="row__hook">Rebranded mid-flight. The feed never crashed.</span>
+            </span>
+            <span class="row__sign">+</span>
+          </button>
+          <div class="row__body">
+            <div class="row__inner">
+              <p>
+                Eventbeep went from campus event discovery to a fresher hiring platform,
+                which means the audience woke up one day to a different company. I ran the
+                Instagram through the whole pivot: new calendar themes, new narrative,
+                Reels doing the heavy lifting, and a micro-influencer plus campus ambassador
+                network built from nothing so the message arrived from a classmate instead
+                of a brand. Peer distribution beat paid reach, every time.
+              </p>
+              <div class="flow">
+                <span>NEW POSITIONING</span><span>THEMES</span><span>REELS</span><span>CREATOR NETWORK</span><span>AUDIENCE FOLLOWS ✓</span>
+              </div>
+              <a class="row__link" href="https://www.instagram.com/beepappofficial/?hl=en" target="_blank" rel="noopener">VIEW LIVE PROFILE ↗</a>
+            </div>
           </div>
-          <div class="stat reveal">
-            <span class="stat__num" data-count="10" data-suffix="/10">0/10</span>
-            <span class="stat__label">CGPA in BBA Marketing. yes, out of ten.</span>
+        </article>
+
+        <article class="row">
+          <button class="row__head" aria-expanded="false">
+            <span class="row__num">04</span>
+            <span class="row__main">
+              <span class="row__tags">B2C · LINKEDIN · EMPLOYER BRAND · HIRING NARRATIVE</span>
+              <span class="row__title">BEEP APP · LINKEDIN</span>
+              <span class="row__hook">Same brand, different room, different voice.</span>
+            </span>
+            <span class="row__sign">+</span>
+          </button>
+          <div class="row__body">
+            <div class="row__inner">
+              <p>
+                Instagram had the students. LinkedIn had the people who hire them. Same
+                product, opposite register: no memes, no urgency bait, just the case for
+                why a hiring team should care about fresher talent. Proof that voice is a
+                setting, not a personality.
+              </p>
+              <div class="flow">
+                <span>AUDIENCE SWAP</span><span>REGISTER SHIFT</span><span>PROOF POSTS</span><span>RECRUITER SIDE ✓</span>
+              </div>
+              <a class="row__link" href="https://www.linkedin.com/company/beepappofficial/posts/?feedView=all" target="_blank" rel="noopener">VIEW LIVE PROFILE ↗</a>
+            </div>
           </div>
-        </div>
+        </article>
+
       </div>
     </section>
 
     <!-- ===== EXPERIENCE ===== -->
     <section class="section section--tint" id="experience">
       <div class="section__head reveal">
-        <span class="section__label">02</span>
-        <h2>Where I've posted</h2>
-        <span class="section__quip">professionally. the personal feed stays private.</span>
+        <h2>WHERE I'VE POSTED</h2>
+        <p class="section__quip">professionally. the personal feed stays private.</p>
       </div>
 
-      <div class="timeline">
-        <article class="job reveal">
-          <div class="job__meta">
-            <span class="job__period">Feb 2024 → now</span>
-            <span class="job__loc">Pune</span>
-          </div>
-          <div class="job__body">
+      <div class="exp">
+        <article class="exp__item reveal">
+          <div class="exp__when">FEB 2024 → NOW</div>
+          <div class="exp__what">
             <h3>Social Media Specialist</h3>
-            <p class="job__company">Kings Global Venture</p>
-            <p class="job__blurb">
-              Four brands. Three audience types. One person deciding what they all
-              sound like, so a luxury audience never gets a meme and a Gen-Z audience
-              never gets a whitepaper.
+            <p class="exp__org">KINGS GLOBAL VENTURES</p>
+            <p>
+              Own end-to-end strategy and content direction across a multi-brand B2B, B2C
+              and D2C portfolio. Run influencer and UGC partnerships start to finish:
+              sourced, negotiated, managed, chased. Result, 90% follower growth and 2x
+              engagement inside six months. Reels are the core lever, AI drafts and I
+              decide, and every month the numbers get turned into a decision instead of a
+              deck. Also the person answering the DMs at 11pm, because premium audiences
+              do not wait.
             </p>
-            <ul>
-              <li>Own end-to-end strategy and content direction across a multi-brand B2B, B2C and D2C portfolio.</li>
-              <li>Run influencer and UGC partnerships end to end: sourced, negotiated, managed. Result: 90% follower growth, 2x engagement, 6 months.</li>
-              <li>Reels and Shorts as the core lever. Hooks, pacing, captions, all tuned per brand.</li>
-              <li>Monthly stakeholder reporting that turns watch-time graphs into decisions, not decks.</li>
-              <li>Paid social support, live event coverage, and always-on community care for premium audiences.</li>
-            </ul>
           </div>
         </article>
 
-        <article class="job reveal">
-          <div class="job__meta">
-            <span class="job__period">May 2023 → Jan 2024</span>
-            <span class="job__loc">Pune</span>
-          </div>
-          <div class="job__body">
+        <article class="exp__item reveal">
+          <div class="exp__when">MAY 2023 → JAN 2024</div>
+          <div class="exp__what">
             <h3>Marketing Executive</h3>
-            <p class="job__company">Eventbeep Technoservices</p>
-            <p class="job__blurb">
-              Repositioned an entire brand mid-flight: campus events app on Monday,
-              fresher hiring platform by launch. The audience noticed the change.
-              The follower count did not mind.
+            <p class="exp__org">EVENTBEEP TECHNOSERVICES</p>
+            <p>
+              Led Instagram and YouTube through a full brand repositioning, campus events
+              app to fresher hiring platform, and translated the new strategy into
+              calendars, campaigns and creative that made sense to an audience that never
+              asked for the change. Built a micro-influencer and campus ambassador network
+              from zero. Used the performance data to steer, not to justify.
             </p>
-            <ul>
-              <li>Led Instagram and YouTube content through the full repositioning, translating new strategy into calendars and creative.</li>
-              <li>Built a micro-influencer and campus ambassador network from zero for peer-led distribution.</li>
-              <li>Refined targeting and messaging with performance data as the audience shifted.</li>
-            </ul>
           </div>
         </article>
 
-        <article class="job reveal">
-          <div class="job__meta">
-            <span class="job__period">Jun 2022 → Sep 2022</span>
-            <span class="job__loc">Pune</span>
-          </div>
-          <div class="job__body">
-            <h3>Guest Relations & Marketing Intern</h3>
-            <p class="job__company">Mahindra Lifespaces</p>
-            <ul>
-              <li>Presales marketing and social amplification during launch events. Learned that luxury real estate buyers also scroll.</li>
-            </ul>
+        <article class="exp__item reveal">
+          <div class="exp__when">JUN 2022 → SEP 2022</div>
+          <div class="exp__what">
+            <h3>Guest Relations &amp; Marketing Intern</h3>
+            <p class="exp__org">MAHINDRA LIFESPACES</p>
+            <p>
+              Presales marketing and social amplification during launch events. Learned
+              that luxury buyers scroll exactly like everyone else, they are just quieter
+              about it, and that customer insight collected in person beats a persona
+              slide every time.
+            </p>
           </div>
         </article>
 
-        <article class="job reveal">
-          <div class="job__meta">
-            <span class="job__period">May 2021 → Nov 2021</span>
-            <span class="job__loc">Remote</span>
-          </div>
-          <div class="job__body">
+        <article class="exp__item reveal">
+          <div class="exp__when">MAY 2021 → NOV 2021</div>
+          <div class="exp__what">
             <h3>Social Media Marketing Intern</h3>
-            <p class="job__company">GoDutch</p>
-            <ul>
-              <li>First internship. Platform-specific content and creatives that lifted organic reach. The origin story.</li>
-            </ul>
+            <p class="exp__org">GODUTCH · REMOTE</p>
+            <p>
+              The origin story. Platform-specific content and creatives that lifted organic
+              reach and taught me the only lesson that never expires: the post is not for
+              you, it is for the person deciding whether to keep scrolling.
+            </p>
+          </div>
+        </article>
+
+        <article class="exp__item reveal">
+          <div class="exp__when">2020 → 2023</div>
+          <div class="exp__what">
+            <h3>BBA, Marketing</h3>
+            <p class="exp__org">BHARATI VIDYAPEETH, PUNE · CGPA 10/10</p>
+            <p>
+              Ten out of ten, which I mention roughly once a year and today is that day.
+              Certified in Digital Marketing, Social Media Marketing, plus Inbound and
+              Contextual Marketing from HubSpot Academy.
+            </p>
           </div>
         </article>
       </div>
     </section>
 
-    <!-- ===== WORK / BRANDS ===== -->
-    <section class="section" id="work">
+    <!-- ===== TOOLKIT ===== -->
+    <section class="section" id="toolkit">
       <div class="section__head reveal">
-        <span class="section__label">03</span>
-        <h2>The receipts</h2>
-        <span class="section__quip">live handles, not screenshots. tap a card, judge for yourself.</span>
+        <h2>THE TOOLKIT</h2>
+        <p class="section__quip">hover a cell · the caption bar tells the truth about it</p>
       </div>
 
-      <div class="cards">
-        <a class="card reveal" href="https://www.linkedin.com/company/kings-group-ventures/posts/?feedView=all" target="_blank" rel="noopener">
-          <span class="card__tag">B2B · Multi-brand</span>
-          <h3>Kings Group Ventures</h3>
-          <p>Portfolio-level brand voice and a LinkedIn presence that sounds like one company, on purpose.</p>
-          <span class="card__arrow">→</span>
-        </a>
-        <a class="card reveal" href="https://www.linkedin.com/company/kingsresearch/" target="_blank" rel="noopener">
-          <span class="card__tag">B2B · Research</span>
-          <h3>Kings Research</h3>
-          <p>Thought leadership for people who read reports for a living. A tough crowd. We keep them.</p>
-          <span class="card__arrow">→</span>
-        </a>
-        <a class="card reveal" href="https://www.instagram.com/beepappofficial/?hl=en" target="_blank" rel="noopener">
-          <span class="card__tag">B2C · Instagram</span>
-          <h3>Beep App · Instagram</h3>
-          <p>Reels-first growth through a full repositioning, distributed by an army of campus creators.</p>
-          <span class="card__arrow">→</span>
-        </a>
-        <a class="card reveal" href="https://www.linkedin.com/company/beepappofficial/posts/?feedView=all" target="_blank" rel="noopener">
-          <span class="card__tag">B2C · LinkedIn</span>
-          <h3>Beep App · LinkedIn</h3>
-          <p>Same brand, different room. The hiring-side narrative for the pivoted platform.</p>
-          <span class="card__arrow">→</span>
-        </a>
+      <div class="sheet reveal">
+        <div class="sheet__bar">
+          <span class="sheet__fx">caption</span>
+          <span class="sheet__val" id="sheetVal">hover a skill and I'll caption it for you</span>
+        </div>
+
+        <div class="sheet__grid" id="sheetGrid">
+          <div class="sheet__row">
+            <span class="sheet__rowlabel">A</span>
+            <span class="cell" data-caption="Four brands, three audiences, one calendar. The calendar wins.">Multi-brand strategy</span>
+            <span class="cell" data-caption="A voice doc nobody reads is a suggestion. Mine gets enforced.">Brand voice governance</span>
+            <span class="cell" data-caption="Themes first, posts second. Otherwise it's a feed of nice orphans.">Campaign themes</span>
+            <span class="cell" data-caption="I read competitors so the brand never posts yesterday's idea.">Competitor research</span>
+          </div>
+          <div class="sheet__row">
+            <span class="sheet__rowlabel">B</span>
+            <span class="cell" data-caption="Three seconds to earn the fourth. That's the entire format.">Reels &amp; Shorts</span>
+            <span class="cell" data-caption="The caption is not a place to describe the video. It's the second hook.">Captions &amp; copy</span>
+            <span class="cell" data-caption="Designer's best friend: a brief so clear there's no round two.">Creative briefing</span>
+            <span class="cell" data-caption="Fast, on-brand, and nobody has to know it took nine minutes.">Canva</span>
+          </div>
+          <div class="sheet__row">
+            <span class="sheet__rowlabel">C</span>
+            <span class="cell" data-caption="Sourced, negotiated, managed, chased. Mostly the chasing.">Influencer partnerships</span>
+            <span class="cell" data-caption="The best content I never made. Real people, real proof.">UGC campaigns</span>
+            <span class="cell" data-caption="Built one from zero. Distribution by classmate beats distribution by budget.">Campus ambassadors</span>
+            <span class="cell" data-caption="Reply fast, reply human, never argue in the comments. Never.">Community care</span>
+          </div>
+          <div class="sheet__row">
+            <span class="sheet__rowlabel">D</span>
+            <span class="cell" data-caption="Reach is vanity until it's paired with watch time. Then it's a strategy.">Analytics &amp; reporting</span>
+            <span class="cell" data-caption="Two captions, one week, one winner. Vibes don't get a vote.">A/B testing</span>
+            <span class="cell" data-caption="Boosted posts and targeting, so the good organic post gets a second life.">Paid social</span>
+            <span class="cell" data-caption="Instagram Insights, Google Analytics, Sprout Social, Metricool. The receipts drawer.">The dashboards</span>
+          </div>
+          <div class="sheet__row">
+            <span class="sheet__rowlabel">E</span>
+            <span class="cell" data-caption="AI drafts. I decide. The brand never finds out a robot was in the room.">AI-assisted ideation</span>
+            <span class="cell" data-caption="One asset, nine formats, zero extra shoots.">Repurposing</span>
+            <span class="cell" data-caption="Prompts that hold a brand voice for longer than two sentences. Harder than it sounds.">Voice-consistent prompting</span>
+            <span class="cell" data-caption="Buffer, Later, Meta Business Suite, HubSpot, Notion, Trello. The plumbing.">The stack</span>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- ===== SKILLS ===== -->
-    <section class="section section--tint" id="skills">
+    <!-- ===== VOICE SWITCHER ===== -->
+    <section class="section section--tint" id="voice">
       <div class="section__head reveal">
-        <span class="section__label">04</span>
-        <h2>The toolkit</h2>
-        <span class="section__quip">hover a card. everything here has been used in anger.</span>
+        <h2>ONE STRATEGIST, FOUR VOICES</h2>
+        <p class="section__quip">same brief · same person · press a button and watch the register move</p>
       </div>
-      <div class="skills">
-        <div class="skill-group reveal">
-          <h4>Strategy</h4>
-          <p>Multi-brand content strategy · Campaign themes · Calendar ownership · Brand voice governance · Trend and competitor research</p>
+
+      <div class="voice reveal">
+        <div class="voice__btns" id="voiceBtns">
+          <button class="voice__btn is-active" data-voice="mine">MY VOICE</button>
+          <button class="voice__btn" data-voice="b2b">B2B LINKEDIN</button>
+          <button class="voice__btn" data-voice="genz">GEN-Z</button>
+          <button class="voice__btn" data-voice="luxury">LUXURY</button>
         </div>
-        <div class="skill-group reveal">
-          <h4>Content</h4>
-          <p>Reels and Shorts strategy · Captions and copy · Canva design · Brand storytelling · Creative briefing</p>
+        <div class="voice__screen">
+          <span class="voice__meta" id="voiceMeta">my voice · the one you get in the meeting</span>
+          <p class="voice__out" id="voiceOut">
+            Social media manager by title, brand whisperer by habit. I run four brands
+            across three audiences on one calendar, and none of them sound like each other.
+            That part is the job.
+          </p>
         </div>
-        <div class="skill-group reveal">
-          <h4>Creators & Community</h4>
-          <p>Influencer sourcing and management · UGC campaigns · Campus ambassador networks · Crisis comms · Community care</p>
-        </div>
-        <div class="skill-group reveal">
-          <h4>Data & Paid</h4>
-          <p>Instagram Insights · Google Analytics · Sprout Social · A/B testing · Boosted posts · Budget coordination · Stakeholder reporting</p>
-        </div>
-        <div class="skill-group reveal">
-          <h4>AI Workflow</h4>
-          <p>AI-assisted ideation · Caption drafting and repurposing · Brand-voice-consistent prompting. The robots draft. I decide.</p>
-        </div>
-        <div class="skill-group reveal">
-          <h4>Stack</h4>
-          <p>Buffer · Later · Metricool · Meta Business Suite · HubSpot CRM · Notion · Trello · Google Workspace</p>
-        </div>
+        <p class="voice__note">this is the whole pitch, honestly. everything else is scheduling.</p>
       </div>
     </section>
 
     <!-- ===== CONTACT ===== -->
     <section class="section contact" id="contact">
-      <div class="contact__inner reveal">
-        <p class="contact__eyebrow">Got a brand that posts but nobody notices?</p>
-        <h2 class="contact__title">Let's make thumbs<br /><span>stop moving.</span></h2>
-        <div class="contact__links">
-          <a class="btn btn--primary btn--big" href="mailto:sinhaapurva8@gmail.com">Email me</a>
-          <a class="btn btn--ghost btn--big" href="https://www.linkedin.com/in/apurva-sinha-801795209" target="_blank" rel="noopener">LinkedIn</a>
-          <a class="btn btn--ghost btn--big" href="tel:+917992316538">+91 79923 16538</a>
-        </div>
-        <p class="contact__quip">replies faster than a trend dies. which is very, very fast.</p>
+      <p class="contact__eyebrow reveal">GOT A BRAND THAT POSTS AND NOBODY NOTICES?</p>
+      <h2 class="contact__title reveal">LET'S FIX<br />THE <span>SILENCE</span>.</h2>
+      <div class="contact__links reveal">
+        <a class="contact__link" href="mailto:sinhaapurva8@gmail.com">
+          <span class="contact__label">EMAIL</span>
+          <span class="contact__val">sinhaapurva8@gmail.com ↗</span>
+        </a>
+        <a class="contact__link" href="https://www.linkedin.com/in/apurva-sinha-801795209" target="_blank" rel="noopener">
+          <span class="contact__label">LINKEDIN</span>
+          <span class="contact__val">apurva-sinha ↗</span>
+        </a>
+        <a class="contact__link" href="tel:+917992316538">
+          <span class="contact__label">PHONE</span>
+          <span class="contact__val">+91 79923 16538 ↗</span>
+        </a>
       </div>
+      <p class="contact__quip reveal">replies faster than a trend dies. which is very, very fast.</p>
     </section>
 
   </main>
 
   <footer class="footer">
-    <span>© 2026 APURVA SINHA · PUNE, IN</span>
-    <span id="likeCount">0 likes given to this page since you opened it</span>
-    <span>open to relocation. the algorithm travels well.</span>
+    <span>© 2026 APURVA SINHA</span>
+    <span id="likeCount">0 LIKES GIVEN TO THIS PAGE</span>
+    <span>PUNE, IN · <span id="clock">--:--:--</span> IST</span>
+    <span>OPEN TO RELOCATION. THE ALGORITHM TRAVELS WELL.</span>
   </footer>
 
   <script type="module" src="js/scene.js"></script>
