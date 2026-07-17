@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Apurva Sinha · Social Media & Brand Manager</title>
-  <meta name="description" content="Portfolio of Apurva Sinha, a social media and brand manager building multi-brand growth engines through content, community and creators." />
+  <title>Apurva Sinha · I stop the scroll</title>
+  <meta name="description" content="Apurva Sinha, Social Media and Brand Manager. Multi-brand strategy, creator partnerships, and content that makes thumbs stop moving." />
 
   <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
-  <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700,500&f[]=satoshi@400,500,700&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700,500&f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
 
   <script type="importmap">
@@ -21,6 +21,13 @@
 <body>
 
   <div class="cursor" id="cursor"></div>
+  <div class="hearts-layer" id="heartsLayer" aria-hidden="true"></div>
+
+  <!-- live engagement meter -->
+  <div class="engage" id="engage" title="yes, I measure everything">
+    <span class="engage__dot"></span>
+    this page's engagement rate:&nbsp;<strong id="engageNum">0.8%</strong>
+  </div>
 
   <!-- ===== NAV ===== -->
   <header class="nav">
@@ -29,8 +36,8 @@
       <a href="#about">About</a>
       <a href="#experience">Experience</a>
       <a href="#work">Brands</a>
-      <a href="#skills">Skills</a>
-      <a href="#contact" class="nav__cta">Let's talk</a>
+      <a href="#skills">Toolkit</a>
+      <a href="#contact" class="nav__cta">Slide into my inbox</a>
     </nav>
     <button class="nav__burger" id="burger" aria-label="Open menu">
       <span></span><span></span>
@@ -41,7 +48,7 @@
     <a href="#about">About</a>
     <a href="#experience">Experience</a>
     <a href="#work">Brands</a>
-    <a href="#skills">Skills</a>
+    <a href="#skills">Toolkit</a>
     <a href="#contact">Contact</a>
   </div>
 
@@ -51,20 +58,33 @@
     <section class="hero">
       <canvas id="scene"></canvas>
       <div class="hero__inner">
-        <p class="hero__eyebrow reveal">Pune, India · Open to relocation</p>
-        <h1 class="hero__title">
-          <span class="line reveal">Apurva</span>
-          <span class="line line--accent reveal">Sinha</span>
+        <p class="hero__eyebrow reveal">Apurva Sinha · Social Media & Brand Manager · Pune, IN</p>
+        <h1 class="hero__title reveal">
+          I STOP THE <em>SCROLL</em>.
         </h1>
-        <p class="hero__role reveal">Social Media & Brand Manager</p>
-        <p class="hero__sub reveal">
-          I turn multi-brand portfolios into one coherent growth engine.
-          Content direction, brand voice, creators and community, backed by data.
+
+        <p class="hero__sub reveal" id="voiceText">
+          Social media manager by title, brand whisperer by habit. I run four brands
+          across three audiences with one calendar and zero identity crises.
         </p>
+
+        <!-- signature: brand voice switcher -->
+        <div class="voice reveal">
+          <span class="voice__label">same strategist, four voices. try me:</span>
+          <div class="voice__btns" id="voiceBtns">
+            <button class="voice__btn is-active" data-voice="mine">My voice</button>
+            <button class="voice__btn" data-voice="b2b">B2B LinkedIn</button>
+            <button class="voice__btn" data-voice="genz">Gen-Z</button>
+            <button class="voice__btn" data-voice="luxury">Luxury</button>
+          </div>
+        </div>
+
         <div class="hero__actions reveal">
-          <a class="btn btn--primary" href="#work">See my work</a>
+          <a class="btn btn--primary" href="#work">See the receipts</a>
           <a class="btn btn--ghost" href="mailto:sinhaapurva8@gmail.com">sinhaapurva8@gmail.com</a>
         </div>
+
+        <p class="hero__hint reveal">psst. click anywhere. this page accepts likes.</p>
       </div>
       <div class="hero__scroll">scroll<span class="hero__scroll-line"></span></div>
     </section>
@@ -72,8 +92,8 @@
     <!-- ===== MARQUEE ===== -->
     <div class="marquee" aria-hidden="true">
       <div class="marquee__track">
-        <span>Brand Voice · Short-Form Video · Influencer Marketing · Community · Paid Social · Analytics · AI-Augmented Content · Brand Voice · Short-Form Video · Influencer Marketing · Community · Paid Social · Analytics · AI-Augmented Content · </span>
-        <span>Brand Voice · Short-Form Video · Influencer Marketing · Community · Paid Social · Analytics · AI-Augmented Content · Brand Voice · Short-Form Video · Influencer Marketing · Community · Paid Social · Analytics · AI-Augmented Content · </span>
+        <span>BRAND VOICE · REELS & SHORTS · INFLUENCER OPS · UGC · COMMUNITY · PAID SOCIAL · A/B TESTING · AI WORKFLOW · CRISIS COMMS · BRAND VOICE · REELS & SHORTS · INFLUENCER OPS · UGC · COMMUNITY · PAID SOCIAL · A/B TESTING · AI WORKFLOW · CRISIS COMMS · </span>
+        <span>BRAND VOICE · REELS & SHORTS · INFLUENCER OPS · UGC · COMMUNITY · PAID SOCIAL · A/B TESTING · AI WORKFLOW · CRISIS COMMS · BRAND VOICE · REELS & SHORTS · INFLUENCER OPS · UGC · COMMUNITY · PAID SOCIAL · A/B TESTING · AI WORKFLOW · CRISIS COMMS · </span>
       </div>
     </div>
 
@@ -82,41 +102,40 @@
       <div class="section__head reveal">
         <span class="section__label">01</span>
         <h2>About</h2>
+        <span class="section__quip">the bio, minus the buzzwords. mostly.</span>
       </div>
       <div class="about">
         <div class="about__text reveal">
           <p class="about__lead">
-            Three plus years across B2B, B2C and D2C brands, owning strategy from
-            content calendars to creator contracts.
+            Every brand thinks it has a voice. <mark>I make sure it actually does.</mark>
           </p>
           <p>
-            I build short-form-video-first content systems, set and enforce brand voice
-            across portfolios, and lead influencer and UGC partnerships end to end.
-            I integrate AI into the workflow to move faster without diluting the brand,
-            and I translate raw platform data into insights stakeholders actually act on.
+            Three plus years across B2B, B2C and D2C, owning everything from the
+            content calendar to the creator contracts. I build Reels-first content
+            systems, brief designers, negotiate with influencers, answer the DMs,
+            read the analytics, and then do it all again next month, better.
           </p>
           <p>
-            From repositioning a campus platform into a hiring brand, to running always-on
-            community care for premium audiences, I have shipped work across the full
-            spectrum of social.
+            I use AI to move faster and taste to make sure nobody can tell.
+            The data decides what we post next. I decide how it sounds.
           </p>
         </div>
         <div class="about__stats">
           <div class="stat reveal">
             <span class="stat__num" data-count="90" data-suffix="%">0%</span>
-            <span class="stat__label">Follower growth in 6 months</span>
+            <span class="stat__label">follower growth in 6 months. organic. no, really.</span>
           </div>
           <div class="stat reveal">
             <span class="stat__num" data-count="2" data-suffix="x">0x</span>
-            <span class="stat__label">Engagement rate lift</span>
+            <span class="stat__label">engagement rate. the comments talk back now.</span>
           </div>
           <div class="stat reveal">
             <span class="stat__num" data-count="4" data-suffix="+">0+</span>
-            <span class="stat__label">Brands managed at once</span>
+            <span class="stat__label">brands, one calendar, zero identity crises.</span>
           </div>
           <div class="stat reveal">
             <span class="stat__num" data-count="10" data-suffix="/10">0/10</span>
-            <span class="stat__label">CGPA, BBA Marketing</span>
+            <span class="stat__label">CGPA in BBA Marketing. yes, out of ten.</span>
           </div>
         </div>
       </div>
@@ -126,68 +145,79 @@
     <section class="section section--tint" id="experience">
       <div class="section__head reveal">
         <span class="section__label">02</span>
-        <h2>Experience</h2>
+        <h2>Where I've posted</h2>
+        <span class="section__quip">professionally. the personal feed stays private.</span>
       </div>
 
       <div class="timeline">
         <article class="job reveal">
           <div class="job__meta">
-            <span class="job__period">Feb 2024 · Present</span>
+            <span class="job__period">Feb 2024 → now</span>
             <span class="job__loc">Pune</span>
           </div>
           <div class="job__body">
             <h3>Social Media Specialist</h3>
             <p class="job__company">Kings Global Venture</p>
+            <p class="job__blurb">
+              Four brands. Three audience types. One person deciding what they all
+              sound like, so a luxury audience never gets a meme and a Gen-Z audience
+              never gets a whitepaper.
+            </p>
             <ul>
-              <li>Own end-to-end social strategy and content direction across a multi-brand portfolio spanning B2B, B2C and D2C audiences.</li>
-              <li>Lead influencer and UGC partnerships end to end, driving 90% follower growth and 2x engagement in 6 months.</li>
-              <li>Run short-form video as a core lever, from concept and pacing to hooks and captions, tuned per brand.</li>
-              <li>Present monthly performance insights to stakeholders and reshape strategy from the data.</li>
-              <li>Support paid social, cover live brand events, and run always-on community care for premium audiences.</li>
+              <li>Own end-to-end strategy and content direction across a multi-brand B2B, B2C and D2C portfolio.</li>
+              <li>Run influencer and UGC partnerships end to end: sourced, negotiated, managed. Result: 90% follower growth, 2x engagement, 6 months.</li>
+              <li>Reels and Shorts as the core lever. Hooks, pacing, captions, all tuned per brand.</li>
+              <li>Monthly stakeholder reporting that turns watch-time graphs into decisions, not decks.</li>
+              <li>Paid social support, live event coverage, and always-on community care for premium audiences.</li>
             </ul>
           </div>
         </article>
 
         <article class="job reveal">
           <div class="job__meta">
-            <span class="job__period">May 2023 · Jan 2024</span>
+            <span class="job__period">May 2023 → Jan 2024</span>
             <span class="job__loc">Pune</span>
           </div>
           <div class="job__body">
             <h3>Marketing Executive</h3>
             <p class="job__company">Eventbeep Technoservices</p>
+            <p class="job__blurb">
+              Repositioned an entire brand mid-flight: campus events app on Monday,
+              fresher hiring platform by launch. The audience noticed the change.
+              The follower count did not mind.
+            </p>
             <ul>
-              <li>Led Instagram and YouTube content through a full brand repositioning, from campus events platform to fresher hiring platform.</li>
-              <li>Built a micro-influencer and campus ambassador network from scratch for peer-led distribution and community growth.</li>
-              <li>Used performance data to refine targeting and messaging as the audience shifted with the pivot.</li>
+              <li>Led Instagram and YouTube content through the full repositioning, translating new strategy into calendars and creative.</li>
+              <li>Built a micro-influencer and campus ambassador network from zero for peer-led distribution.</li>
+              <li>Refined targeting and messaging with performance data as the audience shifted.</li>
             </ul>
           </div>
         </article>
 
         <article class="job reveal">
           <div class="job__meta">
-            <span class="job__period">Jun 2022 · Sep 2022</span>
+            <span class="job__period">Jun 2022 → Sep 2022</span>
             <span class="job__loc">Pune</span>
           </div>
           <div class="job__body">
             <h3>Guest Relations & Marketing Intern</h3>
             <p class="job__company">Mahindra Lifespaces</p>
             <ul>
-              <li>Supported presales marketing and social amplification during launch events, capturing customer insight for targeting.</li>
+              <li>Presales marketing and social amplification during launch events. Learned that luxury real estate buyers also scroll.</li>
             </ul>
           </div>
         </article>
 
         <article class="job reveal">
           <div class="job__meta">
-            <span class="job__period">May 2021 · Nov 2021</span>
+            <span class="job__period">May 2021 → Nov 2021</span>
             <span class="job__loc">Remote</span>
           </div>
           <div class="job__body">
             <h3>Social Media Marketing Intern</h3>
             <p class="job__company">GoDutch</p>
             <ul>
-              <li>Executed platform-specific content strategies and creatives that lifted organic reach and engagement.</li>
+              <li>First internship. Platform-specific content and creatives that lifted organic reach. The origin story.</li>
             </ul>
           </div>
         </article>
@@ -198,33 +228,33 @@
     <section class="section" id="work">
       <div class="section__head reveal">
         <span class="section__label">03</span>
-        <h2>Brands I've grown</h2>
+        <h2>The receipts</h2>
+        <span class="section__quip">live handles, not screenshots. tap a card, judge for yourself.</span>
       </div>
-      <p class="section__note reveal">Live handles I have owned or contributed to. Tap any card to see the work in the wild.</p>
 
       <div class="cards">
         <a class="card reveal" href="https://www.linkedin.com/company/kings-group-ventures/posts/?feedView=all" target="_blank" rel="noopener">
           <span class="card__tag">B2B · Multi-brand</span>
           <h3>Kings Group Ventures</h3>
-          <p>Portfolio-level brand voice, LinkedIn presence and content systems.</p>
+          <p>Portfolio-level brand voice and a LinkedIn presence that sounds like one company, on purpose.</p>
           <span class="card__arrow">→</span>
         </a>
         <a class="card reveal" href="https://www.linkedin.com/company/kingsresearch/" target="_blank" rel="noopener">
           <span class="card__tag">B2B · Research</span>
           <h3>Kings Research</h3>
-          <p>Thought-leadership content and stakeholder-facing analytics storytelling.</p>
+          <p>Thought leadership for people who read reports for a living. A tough crowd. We keep them.</p>
           <span class="card__arrow">→</span>
         </a>
         <a class="card reveal" href="https://www.instagram.com/beepappofficial/?hl=en" target="_blank" rel="noopener">
           <span class="card__tag">B2C · Instagram</span>
           <h3>Beep App · Instagram</h3>
-          <p>Reels-first growth through a full repositioning, powered by campus creators.</p>
+          <p>Reels-first growth through a full repositioning, distributed by an army of campus creators.</p>
           <span class="card__arrow">→</span>
         </a>
         <a class="card reveal" href="https://www.linkedin.com/company/beepappofficial/posts/?feedView=all" target="_blank" rel="noopener">
           <span class="card__tag">B2C · LinkedIn</span>
           <h3>Beep App · LinkedIn</h3>
-          <p>Employer-brand and hiring-side narrative for the pivoted platform.</p>
+          <p>Same brand, different room. The hiring-side narrative for the pivoted platform.</p>
           <span class="card__arrow">→</span>
         </a>
       </div>
@@ -234,7 +264,8 @@
     <section class="section section--tint" id="skills">
       <div class="section__head reveal">
         <span class="section__label">04</span>
-        <h2>Toolkit</h2>
+        <h2>The toolkit</h2>
+        <span class="section__quip">hover a card. everything here has been used in anger.</span>
       </div>
       <div class="skills">
         <div class="skill-group reveal">
@@ -255,7 +286,7 @@
         </div>
         <div class="skill-group reveal">
           <h4>AI Workflow</h4>
-          <p>AI-assisted ideation · Caption drafting and repurposing · Brand-voice-consistent prompting</p>
+          <p>AI-assisted ideation · Caption drafting and repurposing · Brand-voice-consistent prompting. The robots draft. I decide.</p>
         </div>
         <div class="skill-group reveal">
           <h4>Stack</h4>
@@ -267,21 +298,23 @@
     <!-- ===== CONTACT ===== -->
     <section class="section contact" id="contact">
       <div class="contact__inner reveal">
-        <p class="contact__eyebrow">Next brand could be yours</p>
-        <h2 class="contact__title">Let's build something<br /><span>people follow.</span></h2>
+        <p class="contact__eyebrow">Got a brand that posts but nobody notices?</p>
+        <h2 class="contact__title">Let's make thumbs<br /><span>stop moving.</span></h2>
         <div class="contact__links">
           <a class="btn btn--primary btn--big" href="mailto:sinhaapurva8@gmail.com">Email me</a>
           <a class="btn btn--ghost btn--big" href="https://www.linkedin.com/in/apurva-sinha-801795209" target="_blank" rel="noopener">LinkedIn</a>
           <a class="btn btn--ghost btn--big" href="tel:+917992316538">+91 79923 16538</a>
         </div>
+        <p class="contact__quip">replies faster than a trend dies. which is very, very fast.</p>
       </div>
     </section>
 
   </main>
 
   <footer class="footer">
-    <span>© 2026 Apurva Sinha</span>
-    <span>Pune, Maharashtra · Open to relocation</span>
+    <span>© 2026 APURVA SINHA · PUNE, IN</span>
+    <span id="likeCount">0 likes given to this page since you opened it</span>
+    <span>open to relocation. the algorithm travels well.</span>
   </footer>
 
   <script type="module" src="js/scene.js"></script>
