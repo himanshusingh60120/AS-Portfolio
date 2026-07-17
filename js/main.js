@@ -1,10 +1,11 @@
 // =====================================================
-// UI: nav, mobile menu, cursor, reveals, counters,
-// brand voice switcher, page likes, live engagement rate
+// UI: nav, menu, cursor, grid tag, reveals, counters,
+// work rows, toolkit sheet, voice switcher, likes,
+// engagement meter, clock
 // =====================================================
 
 // ---------- sticky nav ----------
-const nav = document.querySelector(".nav");
+const nav = document.getElementById("nav");
 window.addEventListener("scroll", () => {
   nav.classList.toggle("is-scrolled", window.scrollY > 30);
 });
@@ -18,7 +19,6 @@ burger.addEventListener("click", () => {
   burger.classList.toggle("is-open", open);
   document.body.style.overflow = open ? "hidden" : "";
 });
-
 mobileMenu.querySelectorAll("a").forEach((link) => {
   link.addEventListener("click", () => {
     mobileMenu.classList.remove("is-open");
@@ -29,26 +29,41 @@ mobileMenu.querySelectorAll("a").forEach((link) => {
 
 // ---------- custom cursor ----------
 const cursor = document.getElementById("cursor");
-let cursorX = 0, cursorY = 0, renderX = 0, renderY = 0;
+let cx = 0, cy = 0, rx = 0, ry = 0;
 
 window.addEventListener("pointermove", (e) => {
-  cursorX = e.clientX;
-  cursorY = e.clientY;
+  cx = e.clientX; cy = e.clientY;
   cursor.classList.add("is-active");
 });
-
-function cursorLoop() {
-  renderX += (cursorX - renderX) * 0.2;
-  renderY += (cursorY - renderY) * 0.2;
-  cursor.style.transform = `translate(${renderX}px, ${renderY}px) translate(-50%, -50%)`;
+(function cursorLoop() {
+  rx += (cx - rx) * 0.2;
+  ry += (cy - ry) * 0.2;
+  cursor.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
   requestAnimationFrame(cursorLoop);
-}
-cursorLoop();
+})();
 
-document.querySelectorAll("a, button").forEach((el) => {
+function bindHover(el) {
   el.addEventListener("pointerenter", () => cursor.classList.add("is-hover"));
   el.addEventListener("pointerleave", () => cursor.classList.remove("is-hover"));
+}
+document.querySelectorAll("a, button, .cell").forEach(bindHover);
+
+// ---------- grid coordinate tag (the feed is a grid, after all) ----------
+const gridtag = document.getElementById("gridtag");
+const hero = document.getElementById("hero");
+const CELL = 44;
+
+hero.addEventListener("pointermove", (e) => {
+  const rect = hero.getBoundingClientRect();
+  const col = Math.floor((e.clientX - rect.left) / CELL);
+  const row = Math.floor((e.clientY - rect.top) / CELL);
+  gridtag.textContent =
+    "R" + String(row).padStart(2, "0") + ":C" + String(col).padStart(2, "0");
+  gridtag.style.left = e.clientX + "px";
+  gridtag.style.top = e.clientY + "px";
+  gridtag.classList.add("is-on");
 });
+hero.addEventListener("pointerleave", () => gridtag.classList.remove("is-on"));
 
 // ---------- scroll reveal ----------
 const revealObserver = new IntersectionObserver(
@@ -60,11 +75,10 @@ const revealObserver = new IntersectionObserver(
       }
     });
   },
-  { threshold: 0.15 }
+  { threshold: 0.12 }
 );
-
 document.querySelectorAll(".reveal").forEach((el, i) => {
-  el.style.transitionDelay = `${(i % 4) * 80}ms`;
+  el.style.transitionDelay = `${(i % 4) * 70}ms`;
   revealObserver.observe(el);
 });
 
@@ -74,16 +88,13 @@ function animateCount(el) {
   const suffix = el.dataset.suffix || "";
   const duration = 1200;
   const start = performance.now();
-
-  function tick(now) {
+  (function tick(now) {
     const p = Math.min((now - start) / duration, 1);
     const eased = 1 - Math.pow(1 - p, 3);
     el.textContent = Math.round(end * eased) + suffix;
     if (p < 1) requestAnimationFrame(tick);
-  }
-  requestAnimationFrame(tick);
+  })(performance.now());
 }
-
 const statObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
@@ -95,39 +106,105 @@ const statObserver = new IntersectionObserver(
   },
   { threshold: 0.6 }
 );
+document.querySelectorAll(".stat__num[data-count]").forEach((el) => statObserver.observe(el));
 
-document.querySelectorAll(".stat__num").forEach((el) => statObserver.observe(el));
+// ---------- live impressions counter ----------
+const impressionsEl = document.getElementById("impressions");
+let impressions = 1;
+setInterval(() => {
+  impressions += Math.floor(Math.random() * 3) + 1;
+  impressionsEl.textContent = impressions.toLocaleString("en-IN");
+}, 700);
+
+// ---------- work rows: click to open ----------
+document.getElementById("workRows").addEventListener("click", (e) => {
+  const head = e.target.closest(".row__head");
+  if (!head) return;
+  const row = head.parentElement;
+  const open = row.classList.toggle("is-open");
+  head.setAttribute("aria-expanded", open ? "true" : "false");
+  head.querySelector(".row__sign").textContent = "+";
+});
+
+// ---------- toolkit sheet: caption bar ----------
+const sheetVal = document.getElementById("sheetVal");
+const sheetGrid = document.getElementById("sheetGrid");
+const sheetDefault = "hover a skill and I'll caption it for you";
+
+sheetGrid.addEventListener("pointerover", (e) => {
+  const cell = e.target.closest(".cell");
+  if (!cell) return;
+  sheetVal.textContent = cell.dataset.caption;
+});
+sheetGrid.addEventListener("pointerleave", () => {
+  sheetVal.textContent = sheetDefault;
+});
+// tap support
+sheetGrid.addEventListener("click", (e) => {
+  const cell = e.target.closest(".cell");
+  if (!cell) return;
+  sheetGrid.querySelectorAll(".cell").forEach((c) => c.classList.remove("is-live"));
+  cell.classList.add("is-live");
+  sheetVal.textContent = cell.dataset.caption;
+});
 
 // =====================================================
-// SIGNATURE: brand voice switcher
-// Same message, four brand voices. Proof of craft.
+// SIGNATURE: brand voice switcher, typed out live
 // =====================================================
 const voices = {
-  mine:
-    "Social media manager by title, brand whisperer by habit. I run four brands across three audiences with one calendar and zero identity crises.",
-  b2b:
-    "Results-driven social media professional leveraging cross-functional synergies to deliver stakeholder-aligned engagement outcomes across the full funnel. Agree? Repost to your network.",
-  genz:
-    "bestie i literally make brands go viral for a living. me and the algorithm? besties. 90% growth in 6 months, organic, no cap fr fr.",
-  luxury:
-    "Considered narratives. Curated aesthetics. An audience that does not scroll past. Growth, achieved quietly and without discounting.",
+  mine: {
+    meta: "my voice · the one you get in the meeting",
+    text: "Social media manager by title, brand whisperer by habit. I run four brands across three audiences on one calendar, and none of them sound like each other. That part is the job.",
+  },
+  b2b: {
+    meta: "b2b linkedin · leveraging synergies since forever",
+    text: "Results-driven social media professional leveraging cross-functional synergies to deliver stakeholder-aligned engagement outcomes across the full funnel. Thoughts? Repost to your network. ♻",
+  },
+  genz: {
+    meta: "gen-z · the algorithm and i are besties",
+    text: "bestie i literally make brands go viral for a living. 90% growth in six months, organic, no cap. the comments section is my roman empire and yes i do reply at 11pm.",
+  },
+  luxury: {
+    meta: "luxury · we do not use exclamation marks here",
+    text: "Considered narratives. Curated restraint. An audience that does not scroll past, because nothing here begs. Growth, achieved quietly, and never discounted.",
+  },
 };
 
-const voiceText = document.getElementById("voiceText");
 const voiceBtns = document.getElementById("voiceBtns");
+const voiceOut = document.getElementById("voiceOut");
+const voiceMeta = document.getElementById("voiceMeta");
+let typeTimer;
+
+function typeOut(text) {
+  clearInterval(typeTimer);
+  let i = 0;
+  voiceOut.textContent = "";
+  const caret = document.createElement("span");
+  caret.className = "caret";
+  caret.textContent = "\u00A0";
+  voiceOut.appendChild(caret);
+
+  typeTimer = setInterval(() => {
+    i += 2;
+    caret.remove();
+    voiceOut.textContent = text.slice(0, i);
+    voiceOut.appendChild(caret);
+    if (i >= text.length) {
+      clearInterval(typeTimer);
+      setTimeout(() => caret.remove(), 1200);
+    }
+  }, 16);
+}
 
 voiceBtns.addEventListener("click", (e) => {
   const btn = e.target.closest(".voice__btn");
   if (!btn) return;
-
   voiceBtns.querySelectorAll(".voice__btn").forEach((b) => b.classList.remove("is-active"));
   btn.classList.add("is-active");
-
-  voiceText.classList.add("is-switching");
-  setTimeout(() => {
-    voiceText.textContent = voices[btn.dataset.voice];
-    voiceText.classList.remove("is-switching");
-  }, 250);
+  const v = voices[btn.dataset.voice];
+  voiceMeta.textContent = v.meta;
+  typeOut(v.text);
+  bumpEngagement(0.6);
 });
 
 // =====================================================
@@ -140,11 +217,9 @@ let likes = 0;
 let lastHeart = 0;
 
 document.addEventListener("click", (e) => {
-  // don't hijack real interactions
   if (e.target.closest("a, button, input, textarea")) return;
-
   const now = Date.now();
-  if (now - lastHeart < 120) return; // gentle throttle
+  if (now - lastHeart < 120) return;
   lastHeart = now;
 
   const heart = document.createElement("span");
@@ -157,8 +232,7 @@ document.addEventListener("click", (e) => {
 
   likes++;
   likeCountEl.textContent =
-    likes + (likes === 1 ? " like given to this page since you opened it" : " likes given to this page since you opened it");
-
+    likes + (likes === 1 ? " LIKE GIVEN TO THIS PAGE" : " LIKES GIVEN TO THIS PAGE");
   bumpEngagement(0.4);
 });
 
@@ -167,13 +241,11 @@ document.addEventListener("click", (e) => {
 // =====================================================
 const engageNum = document.getElementById("engageNum");
 let engagement = 0.8;
-let displayed = 0.8;
+let displayedRate = 0.8;
 
 function bumpEngagement(amount) {
   engagement = Math.min(engagement + amount, 99.9);
 }
-
-// scrolling counts as engagement (of course it does)
 let lastScrollBump = 0;
 window.addEventListener("scroll", () => {
   const now = Date.now();
@@ -182,18 +254,22 @@ window.addEventListener("scroll", () => {
     bumpEngagement(0.15);
   }
 });
-
-// hovering links counts too
-document.querySelectorAll("a, button").forEach((el) => {
-  el.addEventListener("pointerenter", () => bumpEngagement(0.05), { once: false });
+document.querySelectorAll("a, button, .cell").forEach((el) => {
+  el.addEventListener("pointerenter", () => bumpEngagement(0.05));
 });
-
-// time on page counts. slowly. like real life.
 setInterval(() => bumpEngagement(0.03), 4000);
 
-function engageLoop() {
-  displayed += (engagement - displayed) * 0.08;
-  engageNum.textContent = displayed.toFixed(1) + "%";
+(function engageLoop() {
+  displayedRate += (engagement - displayedRate) * 0.08;
+  engageNum.textContent = displayedRate.toFixed(1) + "%";
   requestAnimationFrame(engageLoop);
-}
-engageLoop();
+})();
+
+// ---------- footer clock (IST) ----------
+const clock = document.getElementById("clock");
+setInterval(() => {
+  clock.textContent = new Date().toLocaleTimeString("en-GB", {
+    timeZone: "Asia/Kolkata",
+    hour12: false,
+  });
+}, 1000);
