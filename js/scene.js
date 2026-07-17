@@ -1,6 +1,6 @@
 // =====================================================
-// Hero scene: cobalt particle wave + wireframe shape
-// Three.js via CDN import map
+// Hero scene: pink particle wave + wireframe shapes
+// Clicks in the hero make particles pulse (a like, in 3D)
 // =====================================================
 import * as THREE from "three";
 
@@ -29,9 +29,9 @@ const count = COLS * ROWS;
 const positions = new Float32Array(count * 3);
 const colors = new Float32Array(count * 3);
 
-const cobalt = new THREE.Color("#2742F5");
-const coral = new THREE.Color("#FF6A4D");
-const ink = new THREE.Color("#9a99a8");
+const pink = new THREE.Color("#F5257C");
+const violet = new THREE.Color("#4B2AA6");
+const grey = new THREE.Color("#a49fa9");
 
 let i = 0;
 for (let x = 0; x < COLS; x++) {
@@ -40,9 +40,9 @@ for (let x = 0; x < COLS; x++) {
     positions[i * 3 + 1] = 0;
     positions[i * 3 + 2] = (z - ROWS / 2) * SPACING;
 
-    // mostly cobalt, a sprinkle of coral, some quiet grey
+    // mostly pink, some violet, some quiet grey
     const r = Math.random();
-    const c = r < 0.06 ? coral : r < 0.55 ? cobalt : ink;
+    const c = r < 0.45 ? pink : r < 0.62 ? violet : grey;
     colors[i * 3] = c.r;
     colors[i * 3 + 1] = c.g;
     colors[i * 3 + 2] = c.b;
@@ -66,13 +66,13 @@ const points = new THREE.Points(geo, mat);
 points.position.y = -1.4;
 scene.add(points);
 
-// ---------- floating wireframe icosahedron ----------
+// ---------- floating wireframe shapes ----------
 const icoGeo = new THREE.IcosahedronGeometry(1.4, 1);
 const icoMat = new THREE.MeshBasicMaterial({
-  color: cobalt,
+  color: pink,
   wireframe: true,
   transparent: true,
-  opacity: 0.35,
+  opacity: 0.3,
 });
 const ico = new THREE.Mesh(icoGeo, icoMat);
 ico.position.set(3.4, 1.2, 1.5);
@@ -80,7 +80,7 @@ scene.add(ico);
 
 const icoSmallGeo = new THREE.IcosahedronGeometry(0.5, 0);
 const icoSmallMat = new THREE.MeshBasicMaterial({
-  color: coral,
+  color: violet,
   wireframe: true,
   transparent: true,
   opacity: 0.5,
@@ -96,6 +96,12 @@ const target = { x: 0, y: 0 };
 window.addEventListener("pointermove", (e) => {
   mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+});
+
+// ---------- click pulse: the wave "likes" you back ----------
+let pulse = 0;
+document.querySelector(".hero").addEventListener("click", () => {
+  pulse = 1;
 });
 
 // ---------- resize ----------
@@ -115,21 +121,25 @@ const pos = geo.attributes.position;
 function animate() {
   const t = clock.getElapsedTime();
 
-  // wave motion
+  // pulse decays smoothly
+  pulse *= 0.94;
+  const amp = 1 + pulse * 1.6;
+
   let idx = 0;
   for (let x = 0; x < COLS; x++) {
     for (let z = 0; z < ROWS; z++) {
       const px = pos.array[idx * 3];
       const pz = pos.array[idx * 3 + 2];
       pos.array[idx * 3 + 1] =
-        Math.sin(px * 0.55 + t * 0.9) * 0.45 +
-        Math.cos(pz * 0.7 + t * 0.6) * 0.35;
+        (Math.sin(px * 0.55 + t * 0.9) * 0.45 +
+          Math.cos(pz * 0.7 + t * 0.6) * 0.35) * amp;
       idx++;
     }
   }
   pos.needsUpdate = true;
 
-  // shapes
+  mat.size = 0.05 + pulse * 0.05;
+
   ico.rotation.x = t * 0.15;
   ico.rotation.y = t * 0.2;
   ico.position.y = 1.2 + Math.sin(t * 0.8) * 0.2;
@@ -138,7 +148,6 @@ function animate() {
   icoSmall.rotation.z = t * 0.18;
   icoSmall.position.y = 2 + Math.cos(t * 0.7) * 0.25;
 
-  // parallax easing
   target.x += (mouse.x - target.x) * 0.04;
   target.y += (mouse.y - target.y) * 0.04;
   camera.position.x = target.x * 1.1;
@@ -150,7 +159,6 @@ function animate() {
 }
 
 if (prefersReduced) {
-  // single static frame for reduced motion
   renderer.render(scene, camera);
 } else {
   animate();
