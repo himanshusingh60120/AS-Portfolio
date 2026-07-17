@@ -30,14 +30,14 @@ function computeField() {
 // ---------- layers: size + color variety, like scattered pixels ----------
 // density = particles per 10,000 square world units, scaled to viewport
 const LAYERS = [
-  { color: "#17141A", density: 4.2, size: 0.16, opacity: 0.9 },  // ink, chunky
-  { color: "#17141A", density: 7.5, size: 0.09, opacity: 0.7 },  // ink, fine
-  { color: "#F5257C", density: 3.4, size: 0.15, opacity: 1.0 },  // pink, chunky
-  { color: "#F5257C", density: 5.0, size: 0.08, opacity: 0.85 }, // pink, fine
-  { color: "#4B2AA6", density: 2.2, size: 0.11, opacity: 0.75 }, // violet
+  { color: "#17141A", density: 7.5, size: 0.15, opacity: 0.9 },   // ink, chunky
+  { color: "#17141A", density: 13.0, size: 0.085, opacity: 0.7 }, // ink, fine
+  { color: "#F5257C", density: 6.0, size: 0.14, opacity: 1.0 },   // pink, chunky
+  { color: "#F5257C", density: 9.0, size: 0.075, opacity: 0.85 }, // pink, fine
+  { color: "#4B2AA6", density: 4.0, size: 0.105, opacity: 0.75 }, // violet
 ];
 
-const MAX = 1600; // per layer ceiling
+const MAX = 2800; // per layer ceiling
 const systems = [];
 
 for (const layer of LAYERS) {
@@ -45,7 +45,22 @@ for (const layer of LAYERS) {
   const home = new Float32Array(MAX * 3);
   const velocity = new Float32Array(MAX * 3);
   const phase = new Float32Array(MAX);
-  for (let i = 0; i < MAX; i++) phase[i] = Math.random() * Math.PI * 2;
+  // every particle wanders on its own two frequencies, its own amplitude,
+  // and its own leash length. no two move alike.
+  const freqX = new Float32Array(MAX);
+  const freqY = new Float32Array(MAX);
+  const ampX = new Float32Array(MAX);
+  const ampY = new Float32Array(MAX);
+  const leash = new Float32Array(MAX);
+
+  for (let i = 0; i < MAX; i++) {
+    phase[i] = Math.random() * Math.PI * 2;
+    freqX[i] = 0.25 + Math.random() * 1.5;
+    freqY[i] = 0.25 + Math.random() * 1.5;
+    ampX[i] = (0.5 + Math.random() * 2.2) * (Math.random() < 0.5 ? -1 : 1);
+    ampY[i] = (0.5 + Math.random() * 2.2) * (Math.random() < 0.5 ? -1 : 1);
+    leash[i] = 0.004 + Math.random() * 0.016; // weak spring = long wander
+  }
 
   const geo = new THREE.BufferGeometry();
   geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
@@ -66,6 +81,7 @@ for (const layer of LAYERS) {
 
   systems.push({
     geo, mat, points, home, velocity, phase,
+    freqX, freqY, ampX, ampY, leash,
     n: 0,
     density: layer.density,
     baseSize: layer.size,
@@ -148,8 +164,7 @@ window.addEventListener("resize", () => {
 const clock = new THREE.Clock();
 const REPEL_R = 2.0;
 const REPEL_F = 0.055;
-const SPRING = 0.022;
-const DAMP = 0.88;
+const DAMP = 0.92;
 
 function animate() {
   const t = clock.getElapsedTime();
@@ -183,8 +198,17 @@ function animate() {
         }
       }
 
-      s.velocity[ix] += (s.home[ix] - px) * SPRING + Math.sin(t * 0.5 + s.phase[i]) * 0.001;
-      s.velocity[ix + 1] += (s.home[ix + 1] - py) * SPRING + Math.cos(t * 0.4 + s.phase[i]) * 0.001;
+      // random wander: two out-of-sync waves per axis, unique per particle
+      const ph = s.phase[i];
+      const wx =
+        Math.sin(t * s.freqX[i] + ph) * 0.6 +
+        Math.sin(t * s.freqX[i] * 2.7 + ph * 1.7) * 0.4;
+      const wy =
+        Math.cos(t * s.freqY[i] + ph * 1.3) * 0.6 +
+        Math.cos(t * s.freqY[i] * 2.3 + ph * 0.6) * 0.4;
+
+      s.velocity[ix] += (s.home[ix] - px) * s.leash[i] + wx * s.ampX[i] * 0.0022;
+      s.velocity[ix + 1] += (s.home[ix + 1] - py) * s.leash[i] + wy * s.ampY[i] * 0.0022;
       s.velocity[ix] *= DAMP;
       s.velocity[ix + 1] *= DAMP;
 
